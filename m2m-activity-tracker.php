@@ -71,9 +71,15 @@ register_activation_hook( __FILE__, 'mmat_install' );
 function callback_for_setting_up_scripts() {
     wp_register_style( 'm2m-activity-tracker-css', plugins_url('css/main.css',__FILE__ ) );
     wp_enqueue_style( 'm2m-activity-tracker-css' );
+
     wp_register_script( 'm2m-activity-tracker-js', plugins_url('js/main.js',__FILE__ ));
+
     wp_localize_script( 'm2m-activity-tracker-js', 'mmat_ajax', array( 'ajax_url' => admin_url('admin-ajax.php')) );
+
     wp_enqueue_script('m2m-activity-tracker-js', null, array('jquery'), null, true);
+
+    wp_register_style( 'Animate_css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css' );
+    wp_enqueue_style('Animate_css');
 }
 add_action('wp_enqueue_scripts', 'callback_for_setting_up_scripts');
 
@@ -102,7 +108,6 @@ add_shortcode( 'addpeople', 'add_people_form_func' );
 
 function add_activity_form_func(){
 
-
     global $wpdb;
 
     $activity_table = $wpdb->prefix . "mmat_activity";
@@ -115,6 +120,30 @@ function add_activity_form_func(){
     include dirname(__FILE__) . '/pages/add-activity.php';
 }
 add_shortcode( 'addactivities', 'add_activity_form_func' );
+
+function show_activity_list_func(){
+
+    ob_start();
+
+    global $wpdb;
+
+    $activity_table = $wpdb->prefix . "mmat_activity";
+
+    $people_table = $wpdb->prefix . "mmat_people";
+
+    $people_activity_table = $wpdb->prefix . "mmat_people_activity";
+
+    $interactions = $wpdb->get_results("
+      SELECT p.id, p.name AS username, p.phone, p.email, pa.id AS pa_id, pa.with_friend, pa.friend_name, pa.date, a.id AS activity_id, a.name AS activity_name FROM $people_table p 
+      LEFT JOIN $people_activity_table pa ON p.id = pa.people_id 
+      LEFT JOIN $activity_table a ON pa.activity_id = a.id
+      ORDER BY p.name");
+
+    include dirname(__FILE__) . '/pages/list.php';
+
+    return ob_get_clean();
+}
+add_shortcode( 'showlist', 'show_activity_list_func' );
 
 
 
@@ -131,7 +160,7 @@ function add_people_form_function(){
         $tablename = $wpdb->prefix .'mmat_people';
 
         $data = [
-            'name' => $_POST['name'],
+            'name' => ucwords($_POST['name']),
             'phone' => $_POST['phone'],
             'email' => $_POST['email']
         ];
@@ -156,13 +185,6 @@ function add_activity_form_function(){
 
     //you can access $_POST, $GET and $_REQUEST values here.
 
-
-//    $date = $_POST['date'];
-//    $time = $_POST['time'];
-//    $timestamp = strtotime("$date $time");
-//
-//    print_r([$_POST, $timestamp]);die;
-
     if ( isset( $_POST['people-id'] ) ){
 
         global $wpdb;
@@ -179,7 +201,7 @@ function add_activity_form_function(){
             'people_id'     => $_POST['people-id'],
             'activity_id'   => $_POST['activity-id'],
             'with_friend'   => $with_friend,
-            'friend_name'   => $_POST['friend-name'],
+            'friend_name'   => ucwords($_POST['friend-name']),
             'date'          => $timestamp
         ];
 
@@ -237,3 +259,36 @@ function search_box_q_func(){
 }
 
 add_action( 'wp_ajax_search_box_q', 'search_box_q_func');
+
+
+/** HELPER FUNCS */
+
+/**
+ * @param $friend
+ * @param $activity
+ * @return null|string
+ */
+function get_image_class($friend, $activity){
+    $class = '';
+
+    if ( is_null($activity) ) {
+        return NULL;
+    }
+    switch ($activity) {
+        case 1 :
+            $class = "visit";
+            break;
+        case 2 :
+            $class = "fhe";
+            break;
+        case 3 :
+            $class = "meal";
+            break;
+    }
+
+    if ($friend) {
+        $class .= "-friend";
+    }
+
+    return $class;
+}

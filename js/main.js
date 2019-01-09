@@ -3,6 +3,7 @@
 
 (function($) {
 
+
     /* search box */
     $("#add-activity-page-search-box").keyup(function (e) {
 
@@ -39,10 +40,6 @@
         }
     })
 
-
-
-
-
     // show hide search box
     $("#people-search-btn").click(function () {
         $("#add-activity-page-search-results").show();
@@ -61,6 +58,40 @@
         $("#add-activity-page-search-box").val('');
         $('.search-container ul').html(' <p>Escribe el nombre o telefono o email de la persona que guieras encontrar. Minimo 3 caracteres.</p>');
         $(".selected-family").html($(this).data('user-name'));
+    })
+
+    // toggle display filters
+
+    var filtersH = $('#filters-wrapper').outerHeight();
+    $('#filters-wrapper').css('margin-top', '-' + filtersH + 'px');
+
+    $('.toggle-filters').on("click", ".show-filters", function () {
+        $('#filters-wrapper').css('margin-top', '15px');
+        $(this).text('Cierra Filtros');
+        $(this).toggleClass('show-filters hide-filters');
+    })
+
+    $('.toggle-filters').on("click", ".hide-filters", function () {
+        $('#filters-wrapper').css('margin-top', '-' + filtersH + 'px')
+        $(this).text('Ver Filtros');
+        $(this).toggleClass('show-filters hide-filters');
+    })
+
+    // toggle leyend
+
+    var leyendH = $('#leyend-wrapper').outerHeight();
+    $('#leyend-wrapper').css('margin-top', '-' + leyendH + 'px');
+
+    $('.toggle-leyend').on("click", ".show-leyend", function () {
+        $('#leyend-wrapper').css('margin-top', '15px');
+        $(this).text('Cierra Leyenda');
+        $(this).toggleClass('show-leyend hide-leyend');
+    })
+
+    $('.toggle-leyend').on("click", ".hide-leyend", function () {
+        $('#leyend-wrapper').css('margin-top', '-' + leyendH + 'px')
+        $(this).text('Ver Leyenda');
+        $(this).toggleClass('show-leyend hide-leyend');
     })
 
 })( jQuery );

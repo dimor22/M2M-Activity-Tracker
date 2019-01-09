@@ -2,34 +2,15 @@
 <div id="add-activity-page">
 
     <div id="selected-famlily" class="left-orange-line">
-        <p>Famlia Selectionada: <a id="people-search-btn" href="#">Buscar Familia</a><p>
+        <p>Famlia Selectionada: <p>
         <p><strong class="selected-family"></strong></p>
+        <p><a id="people-search-btn" href="#">Buscar Familia</a></p>
     </div>
 
     <form method='post' action='/wp-admin/admin-post.php' id="add-activity-form">
         <input name='action' type="hidden" value='add_activity'>
 
         <input id="people-id" type="hidden" name="people-id" value="">
-
-<!--        <div>-->
-<!--            <label for="people-id">Familia</label>-->
-<!--            <select id="people-id" name="people-id">-->
-<!--                --><?php //foreach( $people as $individual) {
-//                    echo "<option value='$individual->id'>$individual->name</option>";
-//                } ?>
-<!--            </select>-->
-<!--        </div>-->
-
-
-
-<!--        <div>-->
-<!--            <label for="activity">Actividad: </label>-->
-<!--            <select id="activity" name="activity-id">-->
-<!--                --><?php //foreach( $activities as $activity) {
-//                    echo "<option value='$activity->id'>$activity->name</option>";
-//                } ?>
-<!--            </select>-->
-<!--        </div>-->
 
         <div id="activity" class="left-orange-line">
             <p>Actividad:</p>
@@ -53,12 +34,12 @@
 
         <div class="left-orange-line">
             <label for="date">Fecha: </label>
-            <input type="date" name="date" id="date">
+            <input type="date" name="date" id="date" required>
         </div>
 
         <div class="left-orange-line">
             <label for="time">Hora: </label>
-            <input name="time" type="time" id="time">
+            <input name="time" type="time" id="time" required>
         </div>
 
         <div>
