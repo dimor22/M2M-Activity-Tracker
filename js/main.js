@@ -93,13 +93,6 @@
         $(this).text('Ver Leyenda');
         $(this).toggleClass('show-leyend hide-leyend');
 
-        dadfsadf
-        asdf
-        asdf
-        asdf
-        asdf
-        asdf
-
     })
 
 
