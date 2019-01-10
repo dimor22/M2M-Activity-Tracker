@@ -92,6 +92,15 @@
         $('#leyend-wrapper').css('margin-top', '-' + leyendH + 'px')
         $(this).text('Ver Leyenda');
         $(this).toggleClass('show-leyend hide-leyend');
+
+        dadfsadf
+        asdf
+        asdf
+        asdf
+        asdf
+        asdf
+
     })
+
 
 })( jQuery );
