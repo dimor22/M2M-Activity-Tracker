@@ -5,9 +5,10 @@
 <div class="filters-section">
     <div id="filters-wrapper">
         <div class="direct-filters">
-            <button>Ultimos 7 Dias</button>
-            <button>Ultimos 15 Dias</button>
-            <button>Ultimos 30 Dias</button>
+            <button id="last-7">Ultimos 7 Dias</button>
+            <button id="last-15">Ultimos 15 Dias</button>
+            <button id="last-30">Ultimos 30 Dias</button>
+            <button>Borrar Filtros</button>
         </div>
 
         <div class="advanced-filters">
@@ -95,5 +96,55 @@
     </div>
 
 </ul>
+
+<div class="show-list-wrapper">
+    <table class="show-list-results">
+        <tr>
+            <th>Familias</th>
+            <th>Visitas</th>
+        </tr>
+
+        <?php
+
+        $user_id = 0;
+        $i = 0;
+        $date = '';
+
+        foreach( $interactions as $int) {
+            $i++;
+
+            if ($i > 1 && $user_id != $int->id) {
+                echo "</td></tr>";
+            }
+
+            $class = get_image_class($int->with_friend, $int->activity_id);
+
+            if ( ! is_null($int->date) ) {
+                $date = gmdate("j/n/Y, g:i a", $int->date);
+            }
+
+            if ($int->id != $user_id) {
+                echo '<tr>';
+                echo "<td class='user-info'>";
+                echo "<span class='user-info-name'>$int->username</span>";
+                echo "<span class='user-info-phone'>$int->phone</span>";
+                echo "<span class='user-info-email'>$int->email</span>";
+                echo "</td>";
+                echo "<td class='user-visits'>";
+                if ( ! is_null($class) ) {
+                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
+                }
+            } else {
+                if ( ! is_null($class) ) {
+                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
+                }
+            }
+
+            $user_id = $int->id;
+
+        } ?>
+
+    </table>
+</div>
 
 

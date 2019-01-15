@@ -74,9 +74,12 @@ function callback_for_setting_up_scripts() {
 
     wp_register_script( 'm2m-activity-tracker-js', plugins_url('js/main.js',__FILE__ ));
 
+    wp_register_script( 'sortable', plugins_url('js/sorttable.js',__FILE__ ));
+
     wp_localize_script( 'm2m-activity-tracker-js', 'mmat_ajax', array( 'ajax_url' => admin_url('admin-ajax.php')) );
 
     wp_enqueue_script('m2m-activity-tracker-js', null, array('jquery'), null, true);
+    wp_enqueue_script('sortable', null, array('jquery'), null, true);
 
     wp_register_style( 'Animate_css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css' );
     wp_enqueue_style('Animate_css');
@@ -97,6 +100,34 @@ function my_plugin_options() {
     echo '</div>';
 }
 add_action( 'admin_menu', 'my_plugin_menu' );
+
+
+/**
+ * Add a custom link to the end of a specific menu that uses the wp_nav_menu() function
+ */
+add_filter('wp_nav_menu_items', 'add_admin_link', 1, 2);
+function add_admin_link($items, $args){
+    $redirect_page = get_home_url();
+    if ( get_page_by_path('show-list') != NULL ) {
+        $redirect_page .= '/show-list';
+    }
+    if ( is_user_logged_in() ) {
+        $items .= '<li><a title="Admin" href="'. wp_logout_url( get_home_url() ) .'">Salir</a></li>';
+    } else {
+        $items .= '<li><a title="Admin" href="'. wp_login_url( $redirect_page) .'"><span class="dashicons dashicons-admin-users"></span></a></li>';
+    }
+
+
+    return $items;
+}
+
+
+/** Adding Dashicons in WordPress Front-end */
+
+add_action( 'wp_enqueue_scripts', 'load_dashicons_front_end' );
+function load_dashicons_front_end() {
+    wp_enqueue_style( 'dashicons' );
+}
 
 
 /**  SHORTCODES */

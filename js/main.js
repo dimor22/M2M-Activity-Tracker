@@ -67,7 +67,7 @@
 
     $('.toggle-filters').on("click", ".show-filters", function () {
         $('#filters-wrapper').css('margin-top', '15px');
-        $(this).text('Cierra Filtros');
+        $(this).text('Cerrar Filtros');
         $(this).toggleClass('show-filters hide-filters');
     })
 
@@ -84,7 +84,7 @@
 
     $('.toggle-leyend').on("click", ".show-leyend", function () {
         $('#leyend-wrapper').css('margin-top', '15px');
-        $(this).text('Cierra Leyenda');
+        $(this).text('Cerrar Leyenda');
         $(this).toggleClass('show-leyend hide-leyend');
     })
 
