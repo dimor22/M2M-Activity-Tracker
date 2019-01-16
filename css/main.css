@@ -96,8 +96,11 @@ li.search-result-item:hover {
     border-bottom: 1px solid #d6d6d6;
     min-height: 70px;
 }
+.show-list-wrapper thead {
+    border-bottom: 3px solid #f3f3f3;
+}
 
-.show-list-wrapper li:nth-child(even) {
+.show-list-wrapper tr:nth-child(even) {
     background-color: whitesmoke;
 }
 

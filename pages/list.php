@@ -51,97 +51,32 @@
     </div>
 
 
-    <div class="show-list-results">
-
-        <?php
-
-        $user_id = 0;
-        $i = 0;
-        $date = '';
-
-        foreach( $interactions as $int) {
-            $i++;
-
-            if ($i > 1 && $user_id != $int->id) {
-                echo "</div></li>";
-            }
-
-            $class = get_image_class($int->with_friend, $int->activity_id);
-
-            if ( ! is_null($int->date) ) {
-                $date = gmdate("j/n/Y, g:i a", $int->date);
-            }
-
-            if ($int->id != $user_id) {
-                echo '<li>';
-                echo "<div class='user-info'>";
-                echo "<span class='user-info-name'>$int->username</span>";
-                echo "<span class='user-info-phone'>$int->phone</span>";
-                echo "<span class='user-info-email'>$int->email</span>";
-                echo "</div>";
-                echo "<div class='user-visits'>";
-                if ( ! is_null($class) ) {
-                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
-                }
-            } else {
-                if ( ! is_null($class) ) {
-                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
-                }
-            }
-
-            $user_id = $int->id;
-
-        } ?>
-
-    </div>
 
 </ul>
 
 <div class="show-list-wrapper">
-    <table class="show-list-results">
+    <table class="show-list-results sortable">
         <tr>
             <th>Familias</th>
             <th>Visitas</th>
         </tr>
 
         <?php
+        foreach( $trs as $tr) {
 
-        $user_id = 0;
-        $i = 0;
-        $date = '';
+            echo '<tr>';
+            echo "<td class='user-info' data-user-id='" . $tr['info']['id'] . "'>";
+            echo "<span class='user-info-name'>" . $tr['info']['name'] . "</span>";
+            echo "<span class='user-info-phone'>" . $tr['info']['phone'] . "</span>";
+            echo "<span class='user-info-email'>" . $tr['info']['email'] . "</span>";
+            echo "</td>";
+            echo "<td class='user-visits' sorttable_customkey='" . $tr['total'] . "'>";
 
-        foreach( $interactions as $int) {
-            $i++;
-
-            if ($i > 1 && $user_id != $int->id) {
-                echo "</td></tr>";
+            foreach( $tr['visits'] as $v) {
+                echo "<span class='visit-indicator tooltip " . $v['class'] . "' data-id='" . $v['pa_id'] . "'><div class='tooltiptext'><span class='date'>" . $v['date'] . "</span><span class='friend-name'>Amig@: <strong>" . $v['friend_name'] . "</strong></span></div></span>";
             }
 
-            $class = get_image_class($int->with_friend, $int->activity_id);
-
-            if ( ! is_null($int->date) ) {
-                $date = gmdate("j/n/Y, g:i a", $int->date);
-            }
-
-            if ($int->id != $user_id) {
-                echo '<tr>';
-                echo "<td class='user-info'>";
-                echo "<span class='user-info-name'>$int->username</span>";
-                echo "<span class='user-info-phone'>$int->phone</span>";
-                echo "<span class='user-info-email'>$int->email</span>";
-                echo "</td>";
-                echo "<td class='user-visits'>";
-                if ( ! is_null($class) ) {
-                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
-                }
-            } else {
-                if ( ! is_null($class) ) {
-                    echo "<span class='visit-indicator tooltip $class' data-id='$int->pa_id'><div class='tooltiptext'><span class='date'>$date</span><span class='friend-name'>Amig@: <strong>$int->friend_name</strong></span></div></span>";
-                }
-            }
-
-            $user_id = $int->id;
-
+            echo "</tr>";
         } ?>
 
     </table>

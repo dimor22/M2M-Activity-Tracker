@@ -73,12 +73,10 @@ function callback_for_setting_up_scripts() {
     wp_enqueue_style( 'm2m-activity-tracker-css' );
 
     wp_register_script( 'm2m-activity-tracker-js', plugins_url('js/main.js',__FILE__ ));
+    wp_localize_script( 'm2m-activity-tracker-js', 'mmat_ajax', array( 'ajax_url' => admin_url('admin-ajax.php')) );
+    wp_enqueue_script('m2m-activity-tracker-js', null, array('jquery'), null, true);
 
     wp_register_script( 'sortable', plugins_url('js/sorttable.js',__FILE__ ));
-
-    wp_localize_script( 'm2m-activity-tracker-js', 'mmat_ajax', array( 'ajax_url' => admin_url('admin-ajax.php')) );
-
-    wp_enqueue_script('m2m-activity-tracker-js', null, array('jquery'), null, true);
     wp_enqueue_script('sortable', null, array('jquery'), null, true);
 
     wp_register_style( 'Animate_css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css' );
@@ -154,7 +152,6 @@ add_shortcode( 'addactivities', 'add_activity_form_func' );
 
 function show_activity_list_func(){
 
-    ob_start();
 
     global $wpdb;
 
@@ -170,9 +167,81 @@ function show_activity_list_func(){
       LEFT JOIN $activity_table a ON pa.activity_id = a.id
       ORDER BY p.name");
 
+
+    $trs = [];
+    $tr = [];
+    //    $tr = [
+//        'info' => [
+//            'name' => '',
+//            'phone' => '',
+//            'email' => '',
+//            'user_id'   => ''
+//        ],
+//        'visits' => [
+//            [
+//                'class' => '',
+//                'pa_id' => '',
+//                'date'  => '',
+//                'friend_name'   => '',
+//            ],
+//            [
+//                'class' => '',
+//                'pa_id' => '',
+//                'date'  => '',
+//                'friend_name'   => '',
+//            ]
+//
+//        ],
+//        'total' => ''
+//    ];
+
+    $user_id = 0;
+    $i = 0;
+
+    foreach( $interactions as $int) {
+
+        $tr['info']['name']     = $int->username;
+        $tr['info']['phone']    = $int->phone;
+        $tr['info']['email']    = $int->email;
+        $tr['info']['id']       = $int->id;
+
+        if ( $user_id != $int->id ) {
+            $trs[] = $tr;
+        }
+
+        $user_id = $int->id;
+    }
+
+
+    foreach ( $trs as $k => $v) {
+        $interaction_counter    = 0;
+        $i = 0;
+        foreach ( $interactions as $int ) {
+            if ( $trs[$k]['info']['id'] == $int->id ) {
+
+                $trs[$k]['visits'][$i]['class'] = get_image_class($int->with_friend, $int->activity_id);
+
+                $trs[$k]['visits'][$i]['date']        = '';
+                $trs[$k]['visits'][$i]['pa_id']       = '';
+                $trs[$k]['visits'][$i]['friend_name'] = '';
+                $trs[$k]['total']                     = 0;
+
+
+                if ( ! is_null($int->date) ) {
+                    $trs[$k]['visits'][$i]['date']        = gmdate("j/n/Y, g:i a", $int->date);
+                    $trs[$k]['visits'][$i]['pa_id']       = $int->pa_id;
+                    $trs[$k]['visits'][$i]['friend_name'] = $int->friend_name;
+                    $trs[$k]['total']                     = ++$interaction_counter;
+                }
+                $i++;
+            }
+        }
+    }
+
+
+
     include dirname(__FILE__) . '/pages/list.php';
 
-    return ob_get_clean();
 }
 add_shortcode( 'showlist', 'show_activity_list_func' );
 
