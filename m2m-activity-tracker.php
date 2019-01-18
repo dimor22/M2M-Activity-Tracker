@@ -165,7 +165,7 @@ function show_activity_list_func(){
       SELECT p.id, p.name AS username, p.phone, p.email, pa.id AS pa_id, pa.with_friend, pa.friend_name, pa.date, a.id AS activity_id, a.name AS activity_name FROM $people_table p 
       LEFT JOIN $people_activity_table pa ON p.id = pa.people_id 
       LEFT JOIN $activity_table a ON pa.activity_id = a.id
-      ORDER BY p.name");
+      ORDER BY p.name, pa.date");
 
 
     $trs = [];
@@ -227,7 +227,7 @@ function show_activity_list_func(){
                 $trs[$k]['total']                     = 0;
 
 
-                if ( ! is_null($int->date) ) {
+                if ( ! empty($int->date) ) {
                     $trs[$k]['visits'][$i]['date']        = gmdate("j/n/Y, g:i a", $int->date);
                     $trs[$k]['visits'][$i]['pa_id']       = $int->pa_id;
                     $trs[$k]['visits'][$i]['friend_name'] = $int->friend_name;
@@ -238,7 +238,7 @@ function show_activity_list_func(){
         }
     }
 
-
+    //populate_test_data();
 
     include dirname(__FILE__) . '/pages/list.php';
 
@@ -391,4 +391,52 @@ function get_image_class($friend, $activity){
     }
 
     return $class;
+}
+
+function populate_test_data(){
+
+    /**
+     * Use this js to collect the string of names
+     *
+     * https://www.lds.org/directory/?lang=eng
+     *
+     * $.each( $('#middleScrollerColumn ul li a'), function( index, value) { console.log($(value).text()) })
+     */
+
+    global $wpdb;
+
+    $table_people = $wpdb->prefix . 'mmat_people';
+
+
+    $users = "Abad Aguilera, David & Sonia,,Abellan García, María Dolores,,Acaro Becerra, Miguel Alejandro,,Adame Coedo, Antonio Samuel & Monica,,Aguilera, David Tirso & María del Rosario,,Agustin Conejos, Emiliana Azucena,,Alapont Soler, Francisco Ramon,,Alfonso Almiñana, Manuel & María de los Ángeles,,Alfonso Segarra, Nefi & Luisa Fernanda,,Alfonso Vila, María,,Alfonso, Salvador & María de la Concepción,,Almenar Carreres, Jesús & America,,Almenar Carreres, José & María Almudena,,Almerich Pruñonosa, José & Maria del Rosario,,Amblar Abellan, Arantxa,,Amblar Abellan, Jonatan & Vanessa,,Amorós Agulló, Francisco,,Antezana Gomez, Gerardo & Mary Luz de,,Antoriano Ibañez, Otto Spenser,,Antoriano Vivanco, Otto Nelson & Becky,,Arnandis Marti, Gloria,,Artal Cerveto, Juan Vicente,,Arteaga Cevallos, Dayra Jazmin,,Ballester Iborra, Ana Isabel,,Barahona Martinez, Jaime Fernando & Claudia Geraldina,,Barriga Pineiro, Miguel Angel,,Bermúdez Segarra, Antonio,,Bestue Cartagena, Ceferino,,Blanch Jorge, Electra,,Bleda, Ramón & María del Sol,,Botet Lozano, Maria Cristina,,Brizuela, Romina,,Brotons Sayol, Antonio José,,Caballero Espert, Bautista,,Cabral Ribeiro, Paulo & Amalia Cabral,,Cabrera Soto, Isabel Mercedes,,Cabuchola Llorca, Juan,,Caceres Maldonado, Angel Luis,,Caceres Soldado, Jacinto & Carmen,,Calvó Coronado, Jose María & Keila,,Carreres Chulia, Miguela,,Casaña Medall, Josefina,,Castella Rabasa, Victor Manuel,,Castillo Guerra, Fanny,,Castro Palacios, Juan Pedro & Isabel,,Cebrian Salillas, Rosa,,Chacón Córdoba, Karol Marcela,,Chaques Mari, Patricia,,Chavez Vidal, Liliana de,,Chenique Gorreta, Mauricio,,Chuva Villavicencio, Leonor Eufemia,,Ciscar Segarra, Paula,,Ciscar Segarra, Ramón,,Clemente, José & Manuela,,Clemente, Pedro Francisco & María Dolores,,Conde Paredes, Rair Gerardo,,Cristea, Ioan,,Cubas, Agustin & María del Carmen,,Degaut Barbosa, Dalva Maria,,Delgado Juarez, Giovanna Consuelo,,Delhom, Francisco & Vicenta,,Diego Cardona, Angel,,Domingo Gimeno, Amparo,,Dos Santos Lobo Assumpcao, Luis Eduardo,,Emeka Nnamezie, Michael,,Estrada Martín, Andrés & Ivonne Sofía,,Estrems Dalmau, Josefa,,Fernandez de la Hoz, Jair Orlando & Elsa Viviana,,Fernandez Gonzalez, Santiago,,Fernández Alonso, Juan,,Frances Tortosa, María del Mar,,Freijeiro, Gonzalo & Francisca,,Fuentes Fernández, María Ramona,,Gallego Blanco, Francisco,,Gallego Blanco, María del Mar,,Gallego Blanco, María Dolores,,García Almansa, María José,,García Castillo, Purificacion,,García González, Julia,,García Talamantes, Antonio,,García Talamantes, María Vicenta,,Garrigues Medina, Sabina,,Gasso Martins, Juan Luis,,Gastaldo Sanfelix, Jose & Josefa,,Gelardo Sandemetrio, Santiago,,Genovart Martinez, Alicia,,Giménez Nieto, María Luisa,,Gomez Rojas, Segundo Alejandro & Miriam,,Gomis Martín, María del Rosario,,Gonzalez Agredo, Floralba de,,Gonzalez Agredo, Luz Alba,,Granell Corrales, Estefania,,Guigo Lozano, Segundo,,Gámez Fuentes, Raúl & Beatriz,,Gómez Delgado, Ángel & Josefa,,Gómez Rolón, Rosa Claudelina,,Hellin Peñalver, José Luis,,Hernández Ruano, Rafael,,Hernández Silva, Thais María Luisa,,Herrera, Sandra Monteiro de Carvalho,,Hompanera, Celestino & Alicia,,Iborra Martínez, Martín,,Ibáñez Peris, María Nieves Concepción,,Igual Agustín, Jesús & Yolanda,,Igual Agustín, Vicente & Mirna Ruth,,Ihezie, Jerry Anayochi,,Iturbe Gutierrez, Cecilia Jeanette,,Jara Cisneros, Moisés Favio & Sandra Veronica,,Jaramillo Ponce, Cristian Andres & Natalie Mabel,,Jaramillo Ruales, Nelson Enrique,,Javier Geribes, Bernardo,,Jiminez Ortiz, Juan José,,Joyeux Ferrándiz, Antonella,,Krutsch Ospina, Daniel Felipe,,Leal Villanueva, Pablo,,León León, Antonio & María del Consuelo,,León Sánchez, Carmen,,Linares Vargas, José Manuel,,Llumiquinga Caiza, Monica Yolanda,,Lobo Perez, Flor Alba,,Lorente Rosales, Joaquin,,Lorente Vergada, Aaron Nefi,,Lorente Vergada, Ruben & María de los Angeles,,Lozano Valera, Aurora,,Lucas Canales, Maria Cristina,,Lujo Veneros, Jhovan & Edilse,,López Bauset, David & María Luisa,,López Gámez, David & Hilda Feliciana,,López Romano, José & Purificación,,Maestro Valle, Virtudes,,Maldonado Carpio, Katy Johana,,Mari Montserrat, Amparo,,Marin Tamayo, Juan Gabriel,,Martinez Marco, Juan Pablo,,Martinez, Carmen,,Martínez Alises, María Jesus,,Martínez Cabañas, María Pilar,,Mateo Gardo, Josefa del Carmen,,Mateos Villalba, María Amparo,,Medina, Angel Fabian & Elizabeth Justina,,Mendoza Alarcon, Giovana,,Meson, Raul Fernando,,Miranda Anachuri, Wilma,,Monsonis Boquera, Purificación,,Montes Gómez, José,,Moreno Zamora, Ivan,,Moscardó Ginestar, Vicente & María Amparo,,Munoz Lenerz, Joel Christian,,Muñoz Sanbartolome, María José,,Narciso, Bruna Filipa Rebelo,,Navarro Asunción, Victor,,Navarro de la Hoz, María del Mar,,Nnah, Nathan Chimaeze,,North, Bernard Victor,,Olguin Figueroa, Wilson,,Orande Tamara, Lolita,,Panadero Rocher, Maria Concepción,,Pannone Garcia, Renaldo,,Paredes Solis, Angelo Ruben,,Paredes Solís, Sandra Jennifer,,Pedrajas Gallardo, Jose Manuel & Raquel,,Pereiro Ramos, Sara,,Perez Ravelo, Jenny Vicenta,,Picornell Almeida, Gabriel & Kenia Rosmery,,Piña Galdon, Salvador,,Porcuna, Ignacio juan,,Pulgar Granell, Brian,,Quiles Martínez, Francisco Javier,,Quiñones Bullon, Enrique Alberto & María Isabel,,Rama, Andreina Paola,,Ramirez Escalante, Luis Norberto,,Ramos Herrero, Magdalena,,Ramírez Fernández, Miguel & Luz Divina,,Rivas Garcia, Raysa,,Rodriguez Campo, Angela,,Rodriguez Sanchez Carlos Voltaire, Carlos Voltaire & Diana del Pilar,,Rodríguez Barroso, Aramiel,,Rodríguez Gimeno, Francisco & María,,Rodríguez Rubio, Julia,,Romero Castaño, Miguel,,Romero Molina, Fernando,,Romero Molina, Isabel,,Romero, Carlos & Asuncion,,Romero, Sebastian & Carlota,,Roses Iglesias, María Inmaculada,,Rubio Guapacha, Helamán & Elisa,,Salas Torres, Jason Felipe,,Salgado Encarnación, Ángel Byron & Jenny Fabiola de,,Sandemetrio Hervas, Concepción,,Sangucho Galiendo, Jhoselin Eileen,,Santana, Edward Rafael,,Segarra Alfonso, Lucía Antonia,,Segarra Alfonso, Maria del Carmen,,Segarra Alfonso, Miguela Salvadora,,Serrano Alonso, Anibal,,Silva, Jefferson Henrique Nunes da & Janeth Heidi,,Soben Olivares, David,,Solanilla, Fructuoso & María Julia,,Toro Díaz, Francisca,,Torremocha García, Noemi,,Trujillo Ghandi, Lenin Lombardo,,Trujillo, Jesus & Emilia,,Vallejos Chavez, Aydee Virginia,,Valles Cabrelles, Rosa,,Vega Gil, Elvira María,,Vega, Armando Favio & Gabriela Carolina,,Velez Aguirre, Yeini Veronica,,Vidal Balaguer, José Vicente,,Vilar, José Francisco & María José,,Villalba Gayozo, Carlos Andres,,Villegas Moreno, María del Pilar,,Villegas Saez, Rafaela Nelida,,Vázquez García, Juan Miguel & Silvia,,Yagües Pascual, Jose & Juana Briyit,,Zahonero Ferrer, María Luisa,,Zamorano Ruiz, Stevenson,,Ácaro Castillo, Miguel Ángel";
+    $users_array = explode(',,', $users);
+
+
+    $demo_phone_number = '698000000';
+
+
+    foreach ($users_array as $u) {
+
+        $demo_phone_number++;
+
+        $demo_email = str_replace(' ', '_', str_split( strtolower( $u ), 10 )[0])  . '@gmail.com';
+
+        $wpdb->insert(
+            $table_people,
+            [
+                'name'=> $u,
+                'phone' => $demo_phone_number,
+                'email' => $demo_email
+            ],
+            [
+                '%s',
+                '%s',
+                '%s'
+            ]
+        );
+
+
+    }
+
+    $wpdb->flush();
 }

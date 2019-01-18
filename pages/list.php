@@ -57,7 +57,7 @@
 <div class="show-list-wrapper">
     <table class="show-list-results sortable">
         <tr>
-            <th>Familias</th>
+            <th class="left-column">Familias</th>
             <th>Visitas</th>
         </tr>
 
@@ -73,7 +73,9 @@
             echo "<td class='user-visits' sorttable_customkey='" . $tr['total'] . "'>";
 
             foreach( $tr['visits'] as $v) {
-                echo "<span class='visit-indicator tooltip " . $v['class'] . "' data-id='" . $v['pa_id'] . "'><div class='tooltiptext'><span class='date'>" . $v['date'] . "</span><span class='friend-name'>Amig@: <strong>" . $v['friend_name'] . "</strong></span></div></span>";
+                if ( ! empty($v['date']) ) {
+                    echo "<span class='visit-indicator tooltip " . $v['class'] . "' data-id='" . $v['pa_id'] . "'><div class='tooltiptext'><span class='date'>" . $v['date'] . "</span><span class='friend-name'>Amig@: <strong>" . $v['friend_name'] . "</strong></span></div></span>";
+                }
             }
 
             echo "</tr>";
