@@ -8,33 +8,33 @@
             <button id="last-7">Ultimos 7 Dias</button>
             <button id="last-15">Ultimos 15 Dias</button>
             <button id="last-30">Ultimos 30 Dias</button>
-            <button>Borrar Filtros</button>
+            <button>Ultimos 90 Dias</button>
         </div>
 
-        <div class="advanced-filters">
-            <div>
-                <label for="date">Desde: </label>
-                <input type="date" name="date" id="date-from">
-            </div>
-            <div>
-                <label for="date">Hasta: </label>
-                <input type="date" name="date" id="date-to">
-            </div>
-            <div>
-                <button>Filtrar</button>
-            </div>
-        </div>
+<!--        <div class="advanced-filters">-->
+<!--            <div>-->
+<!--                <label for="date">Desde: </label>-->
+<!--                <input type="date" name="date" id="date-from">-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="date">Hasta: </label>-->
+<!--                <input type="date" name="date" id="date-to">-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <button>Filtrar</button>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 
 
-<ul class="show-list-wrapper">
+<div class="show-list-wrapper">
 
     <div class="toggle-leyend">
         <p class="leyend-btn show-leyend">Ver Leyenda</p>
     </div>
     <div class="leyend">
-        <div id="leyend-wrapper">
+        <div id="leyend-wrapper" class="user-visits">
             <div>
                 <p><span class='visit-indicator visit'></span> Visita</p>
                 <p><span class='visit-indicator visit-friend'></span> Visita <strong>Con Amigo</strong></p>
@@ -50,9 +50,7 @@
         </div>
     </div>
 
-
-
-</ul>
+</div>
 
 <div class="show-list-wrapper">
     <table class="show-list-results sortable">
@@ -69,12 +67,13 @@
             echo "<span class='user-info-name'>" . $tr['info']['name'] . "</span>";
             echo "<span class='user-info-phone'>" . $tr['info']['phone'] . "</span>";
             echo "<span class='user-info-email'>" . $tr['info']['email'] . "</span>";
+            echo '<div class="edit-buttons"><button class="edit-user-btn">Editar</button><button class="delete-user-btn">Borrar</button>';
             echo "</td>";
             echo "<td class='user-visits' sorttable_customkey='" . $tr['total'] . "'>";
 
             foreach( $tr['visits'] as $v) {
                 if ( ! empty($v['date']) ) {
-                    echo "<span class='visit-indicator tooltip " . $v['class'] . "' data-id='" . $v['pa_id'] . "'><div class='tooltiptext'><span class='date'>" . $v['date'] . "</span><span class='friend-name'>Amig@: <strong>" . $v['friend_name'] . "</strong></span></div></span>";
+                    echo "<span class='visit-indicator tooltip " . $v['class'] . "' data-id='" . $v['pa_id'] . "'><div class='tooltiptext'><span class='activity-name'>" . $v['activity_name'] . "</span><span class='friend-name'>Amig@: <strong>" . $v['friend_name'] . "</strong></span><span class='date'>" . $v['date'] . "</span></div></span>";
                 }
             }
 

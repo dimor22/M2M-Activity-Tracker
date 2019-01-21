@@ -6,6 +6,11 @@
     </div>
 
     <div class="left-orange-line">
+        <label for="people-lname">Apedillos: </label>
+        <input id="people-lname" type="text" name="lname" required>
+    </div>
+
+    <div class="left-orange-line">
         <label for="people-phone">Telefono: </label>
         <input id="people-phone" type="text" name="phone">
     </div>

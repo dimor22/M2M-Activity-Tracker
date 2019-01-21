@@ -86,16 +86,7 @@ li.search-result-item:hover {
     margin-left: 10px;
 }
 
-.show-list-wrapper li {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border-bottom: 1px solid #d6d6d6;
-    min-height: 70px;
-}
+
 .show-list-wrapper thead {
     border-bottom: 3px solid #f3f3f3;
 }
@@ -125,10 +116,10 @@ li.search-result-item:hover {
     color: gray;
 }
 
-.show-list-wrapper .user-visits {
+.user-visits {
     display: -webkit-box;
     display: -ms-flexbox;
-    display: table-cell;
+    display: flex;
     margin-left: 20px;
 }
 
@@ -138,11 +129,10 @@ li.search-result-item:hover {
     position: relative;
     display: block;
     margin: 0;
-    padding: 1em;
 }
 
 /* visit indicator colors */
-.show-list-wrapper .visit-indicator {
+.visit-indicator {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -151,13 +141,11 @@ li.search-result-item:hover {
     margin-right: 4px;
 }
 
-.show-list-wrapper .leyend .visit-indicator {
-    width: 10px;
-    height: 10px;
+#leyend-wrapper span.visit-indicator {
+    position: relative;
+    bottom: -8px;
 }
-.leyend div{
-    font-size: 12px;
-}
+
 .leyend div p {
     margin: 0;
 }
@@ -165,44 +153,33 @@ li.search-result-item:hover {
     margin-bottom: 30px;
 }
 
-.show-list-wrapper .visit-indicator.visit {
+.user-visits .visit-indicator.visit {
     background-color: #E91E63;
 }
 
-.show-list-wrapper .visit-indicator.fhe {
+.user-visits .visit-indicator.fhe {
     background-color: #03A9F4;
 }
 
-.show-list-wrapper .visit-indicator.meal {
+.user-visits .visit-indicator.meal {
     background-color: #FF9800;
 }
 
-.show-list-wrapper .visit-indicator.meal-friend {
+.user-visits .visit-indicator.meal-friend {
     background-color: #FF9800;
     border: 5px solid green;
 }
 
-.show-list-wrapper .visit-indicator.visit-friend {
+.user-visits .visit-indicator.visit-friend {
     background-color: #E91E63;
     border: 5px solid green;
 }
 
-.show-list-wrapper .visit-indicator.fhe-friend {
+.user-visits .visit-indicator.fhe-friend {
     background-color: #03A9F4;
     border: 5px solid green;
 }
 
-.show-list-wrapper .leyend .visit-indicator.meal-friend {
-    border: 2px solid green;
-}
-
-.show-list-wrapper .leyend .visit-indicator.visit-friend {
-    border: 2px solid green;
-}
-
-.show-list-wrapper .leyend .visit-indicator.fhe-friend {
-    border: 2px solid green;
-}
 
 .entry .entry-header {
     margin: 20px 15px 0;
@@ -233,14 +210,14 @@ ul.show-list-wrapper {
     width: 190px;
     background-color: #555;
     color: #fff;
-    text-align: left;
+    text-align: center;
     border-radius: 6px;
     padding: 5px 5px 5px 10px;
     position: absolute;
     z-index: 1;
-    top: -80px;
-    left: 0;
-    margin-left: -78px;
+    top: -76px;
+    line-height: 19px;
+    left: -85px;
     opacity: 0;
     -webkit-transition: opacity 0.3s;
     -o-transition: opacity 0.3s;
@@ -282,6 +259,7 @@ ul.show-list-wrapper {
     position: relative;
     overflow: hidden;
     background-color: #f2f9ff;
+    margin-top: 15px;
 }
 #leyend-wrapper {
     -webkit-transition: margin 1s;
@@ -337,11 +315,60 @@ ul.show-list-wrapper {
 .show-list-wrapper .show-list-results .left-column {
     width: 50%;
 }
+.edit-buttons{
+    display: none;
+}
 
 span.dashicons.dashicons-admin-users {
     width: 30px;
     height: 30px;
     font-size: 30px;
+}
+
+#filters-wrapper .direct-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#filters-wrapper .direct-filters button {
+    width: 48%;
+    font-size: 12px;
+    margin: 1%;
+    max-width: 215px;
+
+}
+
+#leyend-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+#leyend-wrapper div {
+    width: 100%;
+}
+
+#leyend-wrapper.user-visits {
+    margin: 0;
+}
+
+.edit-buttons button {
+    font-size: 13px;
+    padding: 5px 10px;
+    margin: 5px;
+    background: #0073aa;
+}
+
+.edit-buttons .delete-user-btn {
+    background-color: transparent;
+    color: #e013c4;
+    text-decoration: underline;
+}
+.show-list-wrapper .user-info:hover {
+    cursor: pointer;
+    background-color: #d0d0d0;
 }
 
 @media only screen and (min-width: 768px){
@@ -361,6 +388,17 @@ span.dashicons.dashicons-admin-users {
     }
     .show-list-wrapper .user-info span {
         font-size: 16px;
+    }
+    #filters-wrapper .direct-filters button {
+        width: 23%;
+        font-size: 14px;
+    }
+    #leyend-wrapper div {
+        width: 33%;
+        max-width: 340px;
+    }
+    .user-visits {
+        display: table-cell;
     }
 
 }

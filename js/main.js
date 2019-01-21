@@ -89,10 +89,21 @@
     })
 
     $('.toggle-leyend').on("click", ".hide-leyend", function () {
-        $('#leyend-wrapper').css('margin-top', '-' + leyendH + 'px')
+        $('#leyend-wrapper').css('margin-top', '-' + leyendH + 'px');
         $(this).text('Ver Leyenda');
         $(this).toggleClass('show-leyend hide-leyend');
 
+    })
+
+    $('.user-info').click(function () {
+        $('.user-info.showing-user-buttons .edit-buttons').toggle();
+        $('.user-info.showing-user-buttons').removeClass('showing-user-buttons');
+        $(this).find('.edit-buttons').toggle();
+        $(this).addClass('showing-user-buttons');
+    })
+
+    $('.edit-buttons button').click( function (e) {
+        e.stopPropagation();
     })
 
 

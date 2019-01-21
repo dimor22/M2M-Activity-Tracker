@@ -221,17 +221,19 @@ function show_activity_list_func(){
 
                 $trs[$k]['visits'][$i]['class'] = get_image_class($int->with_friend, $int->activity_id);
 
-                $trs[$k]['visits'][$i]['date']        = '';
-                $trs[$k]['visits'][$i]['pa_id']       = '';
-                $trs[$k]['visits'][$i]['friend_name'] = '';
-                $trs[$k]['total']                     = 0;
+                $trs[$k]['visits'][$i]['date']          = '';
+                $trs[$k]['visits'][$i]['pa_id']         = '';
+                $trs[$k]['visits'][$i]['friend_name']   = '';
+                $trs[$k]['visits'][$i]['activity_name'] = '';
+                $trs[$k]['total']                       = 0;
 
 
                 if ( ! empty($int->date) ) {
-                    $trs[$k]['visits'][$i]['date']        = gmdate("j/n/Y, g:i a", $int->date);
-                    $trs[$k]['visits'][$i]['pa_id']       = $int->pa_id;
-                    $trs[$k]['visits'][$i]['friend_name'] = $int->friend_name;
-                    $trs[$k]['total']                     = ++$interaction_counter;
+                    $trs[$k]['visits'][$i]['date']          = gmdate("j/n/Y, g:i a", $int->date);
+                    $trs[$k]['visits'][$i]['pa_id']         = $int->pa_id;
+                    $trs[$k]['visits'][$i]['friend_name']   = $int->friend_name;
+                    $trs[$k]['visits'][$i]['activity_name'] = $int->activity_name;
+                    $trs[$k]['total']                       = ++$interaction_counter;
                 }
                 $i++;
             }
@@ -260,7 +262,7 @@ function add_people_form_function(){
         $tablename = $wpdb->prefix .'mmat_people';
 
         $data = [
-            'name' => ucwords($_POST['name']),
+            'name' => ucwords($_POST['lname']) . ", " . ucwords($_POST['name']),
             'phone' => $_POST['phone'],
             'email' => $_POST['email']
         ];
