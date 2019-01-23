@@ -20,5 +20,15 @@
         <input id="people-email" type="text" name="email">
     </div>
 
+    <div id="status" class="left-orange-line">
+        <p>Status:</p>
+        <?php foreach( $status as $s) {
+            echo '<div>';
+            echo "<input type='radio' id='status-$s->id' name='status' value='$s->id'>";
+            echo "<label for='status-$s->id'>$s->name</label>";
+            echo '</div>';
+        } ?>
+    </div>
+
     <input type="submit" value="Guardar">
 </form>

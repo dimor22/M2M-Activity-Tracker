@@ -63,11 +63,11 @@
         foreach( $trs as $tr) {
 
             echo '<tr>';
-            echo "<td class='user-info' data-user-id='" . $tr['info']['id'] . "'>";
-            echo "<span class='user-info-name'>" . $tr['info']['name'] . "</span>";
+            echo "<td class='user-info status-" . $tr['info']['status'] . "' data-user-id='" . $tr['info']['id'] . "'>";
+            echo "<span class='user-info-name'>" . $tr['info']['lname'] . ", " . $tr['info']['name'] . "</span>";
             echo "<span class='user-info-phone'>" . $tr['info']['phone'] . "</span>";
             echo "<span class='user-info-email'>" . $tr['info']['email'] . "</span>";
-            echo '<div class="edit-buttons"><button class="edit-user-btn">Editar</button><button class="delete-user-btn">Borrar</button>';
+            echo '<div class="edit-buttons"><button class="edit-user-btn"><span class="dashicons dashicons-edit"></span></button><button class="delete-user-btn bg-blood"><span class="dashicons dashicons-no"></span></button>';
             echo "</td>";
             echo "<td class='user-visits' sorttable_customkey='" . $tr['total'] . "'>";
 
@@ -84,3 +84,60 @@
 </div>
 
 
+<div id="edit-user-modal" class="modal">
+    <div class="modal-content">
+        <form method='post' action='/wp-admin/admin-post.php' id="add-people-form">
+            <input name='action' type="hidden" value='update_people'>
+            <input name='user-id' id="people-id" type="hidden" value=''>
+            <div class="left-orange-line">
+                <label for="people-name">Nombre: </label>
+                <input id="people-name" type="text" name="name" required>
+            </div>
+
+            <div class="left-orange-line">
+                <label for="people-lname">Apedillos: </label>
+                <input id="people-lname" type="text" name="lname" required>
+            </div>
+
+            <div class="left-orange-line">
+                <label for="people-phone">Telefono: </label>
+                <input id="people-phone" type="text" name="phone">
+            </div>
+
+            <div class="left-orange-line">
+                <label for="people-email">Email: </label>
+                <input id="people-email" type="text" name="email">
+            </div>
+
+            <button class="close-modal">
+                <span class="dashicons dashicons-arrow-left-alt2"></span>
+            </button>
+
+            <button type="submit" class="bg-green">
+                <span class="dashicons dashicons-yes"></span>
+            </button>
+        </form>
+        <div id="updating-status" class="ajax-response">
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<div id="delete-user-modal" class="modal">
+    <div class="modal-content">
+        <span class="dashicons dashicons-warning"></span>
+        <p>La familia <strong id="user-name-delete-modal"></strong> y todas sus citas seran borradas.</p>
+        <p>Seguro que queires borrar esta familia?</p>
+        <button class="close-modal bg-blood">
+            <span class="dashicons dashicons-arrow-left-alt2"></span>
+        </button>
+
+        <button class="delete-user-btn-modal bg-green">
+            <input type="hidden" id="modal-delete-user-id">
+            <span class="dashicons dashicons-yes"></span>
+        </button>
+        <div id="deleting-status" class="ajax-response">
+          <p></p>
+        </div>
+    </div>
+</div>

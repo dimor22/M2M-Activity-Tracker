@@ -106,5 +106,76 @@
         e.stopPropagation();
     })
 
+    $('.edit-buttons .edit-user-btn').click( function () {
+        var userId = $(this).parents('.user-info').data('user-id');
+        var userFullName = $(this).parents('.user-info').find('.user-info-name').text();
+        var userFname = userFullName.split(", ")[1];
+        var userLname = userFullName.split(", ")[0];
+        var userPhone = $(this).parents('.user-info').find('.user-info-phone').text();
+        var userEmail = $(this).parents('.user-info').find('.user-info-email').text();
+
+        $('#people-id').val(userId);
+        $('#people-name').val(userFname);
+        $('#people-lname').val(userLname);
+        $('#people-phone').val(userPhone);
+        $('#people-email').val(userEmail);
+
+        $('#edit-user-modal').css('display', 'flex');
+    })
+    $('#edit-user-modal .close-modal').click(function (e) {
+        e.preventDefault();
+        $('#edit-user-modal').hide();
+    })
+
+    $('.edit-buttons .delete-user-btn').click( function () {
+        var userId = $(this).parents('.user-info').data('user-id');
+        var userFullName = $(this).parents('.user-info').find('.user-info-name').text();
+        var userFname = userFullName.split(",")[1];
+        var userLname = userFullName.split(",")[0];
+
+        $('#modal-delete-user-id').val(userId);
+
+        $('#user-name-delete-modal').text(userLname);
+
+        $('#delete-user-modal').css('display', 'flex');
+    })
+    $('#delete-user-modal .close-modal').click(function () {
+        $('#delete-user-modal').hide();
+    })
+
+    $('#delete-user-modal .delete-user-btn-modal').click( function () {
+        console.log( $('#modal-delete-user-id').val() );
+
+        var userId = $('#modal-delete-user-id').val();
+
+        $('#deleting-status p').text('Borrando ...');
+
+        $.ajax({
+            url : mmat_ajax.ajax_url,
+            type : 'post',
+            data : {
+                action : 'delete_user',
+                user_id : userId
+            },
+            success : function( response ) {
+
+                console.log( 'User deleted ' + response);
+
+                $('.show-list-results td[data-user-id="' + userId + '"]').parent().remove();
+
+                $('#delete-user-modal').hide();
+
+                $('#deleting-status p').text('');
+
+            },
+            fail: function () {
+                //$('.search-container ul').html('Ocurrio un problema en la busqueda. Intentelo mas tarde.');
+
+                console.log( 'There was a problem deleting this user');
+            }
+        });
+
+    })
+
 
 })( jQuery );

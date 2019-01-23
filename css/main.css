@@ -103,7 +103,7 @@ li.search-result-item:hover {
     word-break: break-word;
 }
 
-.show-list-wrapper .user-info span {
+.show-list-wrapper .user-info > span {
     display: block;
     font-size: 12px;
 }
@@ -358,17 +358,69 @@ span.dashicons.dashicons-admin-users {
     font-size: 13px;
     padding: 5px 10px;
     margin: 5px;
-    background: #0073aa;
 }
 
-.edit-buttons .delete-user-btn {
-    background-color: transparent;
-    color: #e013c4;
-    text-decoration: underline;
-}
 .show-list-wrapper .user-info:hover {
     cursor: pointer;
     background-color: #d0d0d0;
+
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #6b6b6bba;
+    padding: 0 15px;
+    margin: 0;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+
+.modal .dashicons.dashicons-no {
+    font-size: 40px;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+}
+
+.modal .dashicons.dashicons-no:hover {
+    cursor: pointer;
+}
+
+.modal-content {
+    background: white;
+    padding: 15px 25px;
+    font-size: 14px;
+}
+
+#delete-user-modal {
+    text-align: center;
+}
+
+#delete-user-modal .modal-content {
+    padding: 30px;
+}
+
+.modal .dashicons-warning {
+    font-size: 70px;
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    color: #f7c05c;
+}
+
+.modal button {
+    width: 40%;
+    padding: 10px;
+    max-width: 185px;
+    margin: 20px 10px;
 }
 
 @media only screen and (min-width: 768px){
@@ -409,6 +461,9 @@ span.dashicons.dashicons-admin-users {
     }
     .show-list-wrapper .user-info span {
         font-size: 22px;
+    }
+    .modal-content {
+        font-size: 1em;
     }
 
 }
