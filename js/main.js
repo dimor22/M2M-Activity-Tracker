@@ -95,11 +95,17 @@
 
     })
 
-    $('.user-info').click(function () {
+    function hoverOrClickUserInfo () {
         $('.user-info.showing-user-buttons .edit-buttons').toggle();
         $('.user-info.showing-user-buttons').removeClass('showing-user-buttons');
         $(this).find('.edit-buttons').toggle();
         $(this).addClass('showing-user-buttons');
+    }
+
+    $('.user-info').on ('click mouseover', hoverOrClickUserInfo );
+
+    $('#add-people-form').submit(function () {
+        $('#updating-status p').text('Guardando ...');
     })
 
     $('.edit-buttons button').click( function (e) {
@@ -113,12 +119,15 @@
         var userLname = userFullName.split(", ")[0];
         var userPhone = $(this).parents('.user-info').find('.user-info-phone').text();
         var userEmail = $(this).parents('.user-info').find('.user-info-email').text();
+        var userStatus = $(this).parents('tr').data('status');
+        console.log(userStatus);
 
         $('#people-id').val(userId);
         $('#people-name').val(userFname);
         $('#people-lname').val(userLname);
         $('#people-phone').val(userPhone);
         $('#people-email').val(userEmail);
+        $("#status-" + userStatus).prop("checked", true);
 
         $('#edit-user-modal').css('display', 'flex');
     })
@@ -163,9 +172,13 @@
 
                 $('.show-list-results td[data-user-id="' + userId + '"]').parent().remove();
 
-                $('#delete-user-modal').hide();
 
-                $('#deleting-status p').text('');
+                $('#deleting-status p').text('Borrado!');
+
+                setTimeout(function () {
+                    $('#delete-user-modal').hide();
+                    $('#deleting-status p').text('');
+                }, 1000);
 
             },
             fail: function () {

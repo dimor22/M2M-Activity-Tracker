@@ -182,6 +182,9 @@ function show_activity_list_func(){
 
     $user_activity_table = $wpdb->prefix . "mmat_user_activity";
 
+
+    $status = $wpdb->get_results("SELECT * FROM $status_table");
+
     $interactions = $wpdb->get_results("
       SELECT u.id, u.name AS username, u.lname AS lastname, u.phone, u.email, u.status, ua.id AS pa_id, ua.with_friend, ua.friend_name, ua.date, a.id AS activity_id, a.name AS activity_name FROM $user_table u 
       LEFT JOIN $user_activity_table ua ON u.id = ua.user_id 
@@ -388,6 +391,9 @@ function add_activity_form_function(){
 }
 add_action('admin_post_add_activity','add_activity_form_function');
 
+add_action('admin_post_nopriv_add_activity','check_if_user_is_loggedin');
+
+
 /** AJAX HOOKS */
 
 function search_box_q_func(){
@@ -426,6 +432,9 @@ function search_box_q_func(){
 }
 
 add_action( 'wp_ajax_search_box_q', 'search_box_q_func');
+
+add_action( 'wp_ajax_nopriv_search_box_q', 'check_if_user_is_loggedin');
+
 
 function delete_user_func(){
 
@@ -472,6 +481,16 @@ function get_image_class($friend, $activity){
     }
 
     return $class;
+}
+
+function check_if_user_is_loggedin(){
+
+    $redirect_page = get_home_url() . '/show-list';
+
+    if (! is_user_logged_in() ) {
+        wp_redirect( wp_login_url( $redirect_page ) );
+        exit;
+    }
 }
 
 function populate_test_data(){

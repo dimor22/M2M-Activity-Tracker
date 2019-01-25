@@ -423,6 +423,20 @@ span.dashicons.dashicons-admin-users {
     margin: 20px 10px;
 }
 
+.ajax-response {
+    text-align: center;
+}
+
+[data-status="2"]  {
+    border-left: 5px solid red;
+}
+[data-status="3"]  {
+    border-left: 5px solid #4CAF50;
+}
+#status label {
+    margin-left: 8px;
+}
+
 @media only screen and (min-width: 768px){
 
     #add-activity-page-search-results .search-container {
